@@ -3,3 +3,14 @@ ansible-playbook -i docker_prune.ini docker_prune.yml
 
 
 # update the list of docker hosts as part of ini file.
+
+
+
+OC_clinet:
+
+ https://github.com/openshift/origin/archive/v4.1.0.tar.gz
+ 
+ 1. downlaod tar file 
+ 2. etxtract tar file
+ 3. login the oc url:
+     #oc login <url> --token=""
