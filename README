@@ -1,2 +1,5 @@
 
 ansible-playbook -i docker_prune.ini docker_prune.yml
+
+
+# update the list of docker hosts as part of ini file.
