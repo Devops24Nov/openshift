@@ -1,1 +1,16 @@
-
+---
+- hosts: all
+  tasks:
+  - name: Download foo.conf
+    get_url:
+      url: https://github.com/openshift/origin/archive/v4.1.0.tar.gz
+      dest: /tmp/v4.1.0.tar.gz
+      mode: '0777'
+  - name: Extract v4.1.0.tar.gz into home dir
+    unarchive:
+      src: /tmp/v4.1.0.tar.gz
+      dest: ansible_env.HOME  
+  - name: return motd to registered var
+    command: oc login <url> --token=""
+    args:
+      chdir: ansible_env.HOME
