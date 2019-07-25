@@ -14,3 +14,5 @@ OC_clinet:
  2. etxtract tar file
  3. login the oc url:
      #oc login <url> --token=""
+     
+ansible-playbook -i oc_client.ini oc_client.yml
