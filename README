@@ -1,0 +1,2 @@
+
+ansible-playbook -i docker_prune.ini docker_prune.yml
