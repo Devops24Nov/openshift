@@ -1,2 +1,69 @@
 https://medium.com/@maheshacharya_44641/install-openshift-origin-on-ubuntu-18-04-7b98773c2ee6
 https://computingforgeeks.com/how-to-setup-openshift-origin-on-ubuntu/
+
+Installation Steps
+
+    SSH into your Ubuntu host VM.
+    Install Docker
+    To install docker on Ubuntu, please following the direction on this page: https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+
+Add current user to the ‘docker’ group so that you don’t have to prefix ‘sudo’ — make sure to exit the terminal and SSH again for this to take effect.
+
+sudo usermod -aG docker $USER
+
+3. Download OpenShift Origin package
+
+wget https://github.com/openshift/origin/releases/download/v3.9.0/openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz 
+
+4. Un-tar the package
+
+tar -zvxf openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz
+
+5. Copy ‘oc’ command to ‘/usr/local/bin/’ directory on the system
+
+cd openshift-origin-client-tools-v3.9.0-191fece-linux-64bit
+sudo cp oc /usr/local/bin/
+
+6. Check ‘oc’ version
+
+oc version
+
+6.1 Output (you will the output like below)
+
+oc v3.9.0+191fece
+kubernetes v1.9.1+a0ce1bc657
+features: Basic-Auth GSSAPI Kerberos SPNEGO
+
+7. Add Insecure registry to docker daemon and restart docker service
+This step is necessary — OpenShift caches images locally for image re-use purposes.
+
+sudo su -
+cat << EOF > /etc/docker/daemon.json 
+{
+    "insecure-registries" : [ "172.30.0.0/16" ]
+}
+EOF
+
+7.1 Restart docker service
+
+service docker restart
+
+8. Start OpenShift Cluster
+
+oc cluster up --routing-suffix=<your public ubuntu IP address>.xip.io --public-hostname=<your ubuntu public DNS>
+
+Why use xip.io? find out more here: http://xip.io/
+
+8.1 Output — you will see output like below
+
+OpenShift server started.
+The server is accessible via web console at:
+https://ec2-54-219-165-185.us-west-1.compute.amazonaws.com:8443You are logged in as:
+User:     developer
+Password: <any value>To login as administrator:
+oc login -u system:admin
+
+9. Open the Admin Console in a browser
+
+User your host address, for example:
+https://ec2-54-219-165-185.us-west-1.compute.amazonaws.com:8443
